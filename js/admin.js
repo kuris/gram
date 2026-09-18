@@ -45,17 +45,24 @@
       var rows = await Promise.all(tables.map(async function (t) {
         try {
           var r = await db.from(t).select('id', { count: 'exact', head: true });
+          if (r && r.error) return { t: t, n: '오류', err: r.error.message || r.error.code || '조회 실패' };
           return { t: t, n: (r && r.count != null) ? r.count : '?' };
-        } catch (e) { return { t: t, n: 'RLS 제한' }; }
+        } catch (e) { return { t: t, n: '연결 실패', err: (e && e.message) || '' }; }
       }));
       var recent = [];
+      var recentErr = '';
       try {
         var q = await db.from('study_log').select('*').order('created_at', { ascending: false }).limit(10);
-        recent = (q && q.data) || [];
-      } catch (e) {}
+        if (q && q.error) recentErr = q.error.message || q.error.code || '조회 실패';
+        else recent = (q && q.data) || [];
+      } catch (e) { recentErr = (e && e.message) || '조회 실패'; }
       box.innerHTML = '<div class="stat-grid">' + rows.map(function (r) {
-        return '<div class="stat-card"><strong>' + esc(r.n) + '</strong><span>' + esc(r.t) + '</span></div>';
+        return '<div class="stat-card"><strong>' + esc(r.n) + '</strong><span>' + esc(r.t) + '</span>' +
+          (r.err ? '<small style="color:#dc2626;">' + esc(r.err) + '</small>' : '') + '</div>';
       }).join('') + '</div>' +
+      ((rows.some(function (r) { return r.err; }) || recentErr) ?
+        '<div class="warn-box"><strong>⚠️ 집계 조회에 실패했어요.</strong><br>Supabase 대시보드 → Settings → API → Exposed schemas에 <strong>gram</strong>이 추가됐는지, SQL Editor에서 마이그레이션(001_gram_schema.sql)을 실행했는지 확인하세요.' +
+        (recentErr ? '<br><small>' + esc(recentErr) + '</small>' : '') + '</div>' : '') +
       '<div class="info-box"><h3>최근 학습 현황 (최대 10개)</h3>' +
       (recent.length ? recent.map(function (l) {
         return '<div class="dash-hist-row"><span>' + esc(l.activity_type) + ' · ' + esc(l.category || '-') + '</span><span class="muted">' + esc(String(l.created_at || '').slice(0, 16).replace('T', ' ')) + '</span></div>';
