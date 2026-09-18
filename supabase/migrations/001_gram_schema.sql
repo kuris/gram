@@ -189,6 +189,28 @@ create index if not exists study_log_user_idx on gram.study_log (user_id, create
 grant all on all tables in schema gram to anon, authenticated, service_role;
 alter default privileges in schema gram grant all on tables to anon, authenticated, service_role;
 
--- 9) gram 서비스 가입은 클라이언트에서 첫 이용 시 처리합니다.
+-- 9) 화면 조회수 및 접속 시간대 통계 (admin 5탭 대시보드용)
+-- ※ admin.html 시스템 탭의 SQL과 동일합니다. 둘 중 한 곳에서 실행하면 됩니다.
+create table if not exists gram.page_views (
+  id bigint generated always as identity primary key,
+  path text not null,
+  page_title text,
+  referrer text,
+  user_id uuid references auth.users on delete set null,
+  hour int not null default extract(hour from (now() at time zone 'Asia/Seoul')),
+  day date not null default (current_date at time zone 'Asia/Seoul')::date,
+  created_at timestamptz not null default now()
+);
+alter table gram.page_views enable row level security;
+drop policy if exists "page_views_insert_all" on gram.page_views;
+create policy "page_views_insert_all" on gram.page_views for insert with check (true);
+drop policy if exists "page_views_select_admin" on gram.page_views;
+create policy "page_views_select_admin" on gram.page_views
+  for select using ((auth.jwt()->>'email' = 'phiskim@gmail.com'));
+grant all on table gram.page_views to anon, authenticated, service_role;
+create index if not exists page_views_day_idx on gram.page_views (day desc);
+create index if not exists page_views_path_idx on gram.page_views (path);
+
+-- 10) gram 서비스 가입은 클라이언트에서 첫 이용 시 처리합니다.
 -- await sb.schema('public').from('service_members')
 --   .insert({ user_id: user.id, service: 'gram', nickname: nick });

@@ -114,12 +114,34 @@
     try {
       var f = here();
       if (f === 'admin.html') return;
+      var title = (document.title || '').replace(' - 문법아 놀자!', '').trim() || f;
+      var now = new Date();
+      var hour = now.getHours();
+      var day = now.toISOString().slice(0, 10);
       var STATS_KEY = 'gram_local_pv_stats';
-      var stats = JSON.parse(localStorage.getItem(STATS_KEY) || '{"pages":{},"recent":[]}');
-      stats.pages[f] = (stats.pages[f] || 0) + 1;
-      stats.recent = (stats.recent || []).slice(0, 29);
-      stats.recent.unshift({ path: f, time: new Date().toISOString() });
-      localStorage.setItem(STATS_KEY, JSON.stringify(stats));
+      try {
+        var stats = JSON.parse(localStorage.getItem(STATS_KEY) || '{"pages":{},"hours":{},"days":{},"recent":[]}');
+        stats.pages[f] = (stats.pages[f] || 0) + 1;
+        stats.hours[hour] = (stats.hours[hour] || 0) + 1;
+        stats.days[day] = (stats.days[day] || 0) + 1;
+        stats.recent = (stats.recent || []).slice(0, 29);
+        stats.recent.unshift({ path: f, title: title, time: now.toISOString() });
+        localStorage.setItem(STATS_KEY, JSON.stringify(stats));
+      } catch (e) {}
+      // Supabase 서버 집계 (gram.page_views, 실패해도 무시)
+      var sendToSupabase = function () {
+        try {
+          if (!window.sb) return;
+          var uid = (window.GramAuth && window.GramAuth.getUser) ? ((window.GramAuth.getUser() || {}).id || null) : null;
+          var db = window.gramDb ? window.gramDb() : window.sb;
+          db.from('page_views').insert({
+            path: '/' + f, page_title: title, referrer: document.referrer || null,
+            user_id: uid, hour: hour, day: day
+          }).then(function () {}, function () {});
+        } catch (e) {}
+      };
+      if (window.sb) sendToSupabase();
+      else window.addEventListener('load', function () { setTimeout(sendToSupabase, 600); }, { once: true });
     } catch (e) {}
   }
 

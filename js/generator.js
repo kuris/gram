@@ -20,9 +20,10 @@
       d = String(d);
       if (set.indexOf(d) === -1 && set.length < 4) set.push(d);
     });
-    // 영어 문법 오답 풀 (정답과 헷갈리는 형태)
+    // 영어 문법 오답 풀 (정답과 헷갈리는 형태) - 숫자 폴백 없음
     var pool = ['is', 'are', 'was', 'were', 'have', 'has', 'had', 'will',
-      'would', 'to go', 'going', 'goes', 'went', 'being', 'been'];
+      'would', 'can', 'could', 'should', 'to go', 'going', 'goes', 'went',
+      'being', 'been', 'be', 'do', 'does', 'did', 'not'];
     var k = 0;
     while (set.length < 4 && k < pool.length) {
       if (set.indexOf(pool[k]) === -1) set.push(pool[k]);
@@ -50,23 +51,74 @@
     return c.title;
   }
 
-  function siblingAnswers(c, n) {
-    // 같은 카테고리 다른 개념의 quickCheck 정답을 오답으로 활용
+  // 같은 정답의 헷갈리는 형태 (동사 변형 오답 생성)
+  function morphDistractors(answer) {
+    var a = String(answer);
+    var out = [];
+    var lower = a.toLowerCase();
+    // be동사 계열
+    var beMap = { am: ['is', 'are'], is: ['am', 'are'], are: ['is', 'am'], was: ['were', 'is'], were: ['was', 'are'] };
+    if (beMap[lower]) return beMap[lower].concat(['be']);
+    // 조동사 계열
+    var modMap = { can: ['could', 'will', 'must'], will: ['would', 'can', 'shall'], must: ['have to', 'should', 'can'], should: ['must', 'ought to', 'had better'] };
+    if (modMap[lower]) return modMap[lower];
+    // have 계열
+    if (lower === 'have') return ['has', 'had', 'having'];
+    if (lower === 'has') return ['have', 'had', 'having'];
+    if (lower === 'had') return ['have', 'has', 'having'];
+    // -ed 과거형 → 원형/3인칭/-ing
+    if (/^[a-z]+ed$/i.test(a) && a.length > 3) {
+      var stem = a.slice(0, -2);
+      var stem2 = a.slice(0, -1);
+      out.push(stem);
+      out.push(stem + 's');
+      out.push(/(ch|sh)$/.test(stem) ? stem + 'es' : stem + 'ing');
+      // d 탈락형 복원 (lived → live)
+      if (/e$/.test(stem)) out[0] = stem;
+      return out;
+    }
+    // -ing → 원형/과거/3인칭 (사전 우선, 패턴은 보조)
+    if (/^[a-z]+ing$/i.test(a) && a.length > 4) {
+      var stem3 = a.slice(0, -3);
+      // 흔한 -ing형의 원형 사전
+      var ingBase = { eating: 'eat', meeting: 'meet', reading: 'read', swimming: 'swim', running: 'run', sitting: 'sit', making: 'make', taking: 'take', coming: 'come', going: 'go', doing: 'do', being: 'be', seeing: 'see', studying: 'study', playing: 'play', watching: 'watch', working: 'work', walking: 'walk', talking: 'talk', helping: 'help', learning: 'learn', waiting: 'wait', raining: 'rain', crying: 'cry', trying: 'try', lying: 'lie', dying: 'die', writing: 'write', driving: 'drive', riding: 'ride', smoking: 'smoke', leaving: 'leave', having: 'have', living: 'live', loving: 'love', moving: 'move', hoping: 'hope', closing: 'close', opening: 'open', shopping: 'shop', stopping: 'stop', getting: 'get', putting: 'put', cutting: 'cut', hitting: 'hit' };
+      var b0 = ingBase[lower] || (stem3 + 'e');
+      var past2 = { go: 'went', eat: 'ate', see: 'saw', run: 'ran', swim: 'swam', sit: 'sat', come: 'came', take: 'took', give: 'gave', write: 'wrote', speak: 'spoke', break: 'broke', choose: 'chose', drive: 'drove', forget: 'forgot', get: 'got', meet: 'met', read: 'read', make: 'made', go2: '' }[b0.toLowerCase()] || (b0 + 'ed');
+      var seen2 = {};
+      [b0, past2, b0 + 's'].forEach(function (w) {
+        if (!seen2[w.toLowerCase()] && w.toLowerCase() !== lower && out.indexOf(w) === -1) { seen2[w.toLowerCase()] = 1; out.push(w); }
+      });
+      return out;
+    }
+    // 불규칙 과거 (went/ate/saw/met/...) → 원형/to부정사/현재
+    var irrBack = { went: 'go', ate: 'eat', saw: 'see', met: 'meet', left: 'leave', felt: 'feel', slept: 'sleep', ran: 'run', came: 'come', took: 'take', gave: 'give', wrote: 'write', spoke: 'speak', broke: 'break', chose: 'choose', drove: 'drive', forgot: 'forget', got: 'get', grew: 'grow', knew: 'know', threw: 'throw', flew: 'fly', drew: 'draw', wore: 'wear', tore: 'tear', swore: 'swear', bore: 'bear', lay: 'lie', lain: 'lie', laid: 'lay', risen: 'rise', raised: 'raise', sat: 'sit' };
+    if (irrBack[lower]) return [irrBack[lower], 'to ' + irrBack[lower], irrBack[lower] + 's'];
+    // 원형 → 과거/-s/-ing
+    if (/^[a-z]+$/i.test(a) && a.length >= 2) {
+      out.push(a + 'ed');
+      out.push(a + 's');
+      out.push(a + 'ing');
+      return out;
+    }
+    return out;
+  }
+
+  function siblingAnswers(c, n, answer) {
+    var out = [];
+    // 1순위: 같은 정답의 헷갈리는 형태
+    morphDistractors(answer || conceptKeyword(c)).forEach(function (d) {
+      if (out.length < n && out.indexOf(d) === -1 && String(d) !== String(answer)) out.push(d);
+    });
+    // 2순위: 같은 카테고리 다른 개념의 짧은(≤10자) 영문 정답만
     var pool = shuffle(concepts().filter(function (x) {
       return x.id !== c.id && x.category === c.category;
     }));
-    var out = [];
     pool.forEach(function (x) {
-      var a = (x.quickCheck && x.quickCheck.answer) || x.title;
-      if (out.indexOf(a) === -1 && a !== conceptKeyword(c)) out.push(a);
+      if (out.length >= n) return;
+      var a = (x.quickCheck && x.quickCheck.answer) || '';
+      if (!a || a.length > 10 || !/^[a-zA-Z’'\-() ]+$/.test(a)) return;
+      if (out.indexOf(a) === -1 && a !== answer) out.push(a);
     });
-    if (out.length < n) {
-      pool = shuffle(concepts().filter(function (x) { return x.id !== c.id; }));
-      pool.forEach(function (x) {
-        var a = x.title;
-        if (out.length < n && out.indexOf(a) === -1) out.push(a);
-      });
-    }
     return out.slice(0, n);
   }
 
@@ -89,7 +141,7 @@
     }
     p.question = q;
     p.answer = answer;
-    p.choices = makeChoices(answer, siblingAnswers(c, 3));
+    p.choices = makeChoices(answer, siblingAnswers(c, 3, answer));
     p.explanation = c.title + ': ' + c.shortDescription + ' 💡 ' + c.memoryTip;
     p.hint = '💡 힌트: ' + c.memoryTip;
     return p;
@@ -105,9 +157,9 @@
       statement = c.shortDescription;
       answer = 'O';
     } else {
-      var sibs = siblingAnswers(c, 1);
-      statement = c.shortDescription.replace(/^[^\.]+\./, (sibs[0] || '비교') + '.');
-      if (statement === c.shortDescription) statement = '반대: ' + (sibs[0] || '과거형') + '을(를) 써야 한다.';
+      // 그 개념의 핵심 용어를 거짓 진술로 (한글 개념명 금지, 영문 형태만)
+      var kw = conceptKeyword(c);
+      statement = /[a-zA-Z]/.test(kw) ? ('반대: ' + kw + ' 대신 다른 형태를 써야 한다.') : c.shortDescription + ' (이 설명은 다른 개념의 것이다.)';
       answer = 'X';
     }
     p.question = '다음 설명이 맞으면 O, 틀리면 X를 고르세요. [' + c.title + '] ' + statement;
