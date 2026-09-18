@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>문법아 놀자! - 초중고 영문법과 GTELP 실전 모의고사</title>
+<meta name="description" content="초등·중등·고등 영문법 개념 142개와 312개 문제, 헷갈리는 표현 51개로 배우고 GTELP 실전 모의고사(문법 26문항/20분)로 마무리하세요.">
+<link rel="canonical" href="https://gram.chatgpts.kr/">
+<meta property="og:title" content="문법아 놀자!">
+<meta property="og:description" content="초등·중등·고등 기초부터 GTELP 실전까지, 영문법을 쉽고 재미있게 배워요.">
+<meta property="og:url" content="https://gram.chatgpts.kr/">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/cg-auth.css">
+<meta name="google-adsense-account" content="ca-pub-3321070604000141">
+<script defer src="js/cg-ads.js" data-client="ca-pub-3321070604000141"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a href="index.html" class="logo"><span class="logo-char">📝</span><span>문법아 놀자!</span></a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="메뉴 열기"><i class="fa-solid fa-bars"></i></button>
+    <nav class="main-nav" id="main-nav"></nav>
+    <div class="auth-box"></div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-text">
+        <span class="hero-badge">📝 오늘부터 문법 자신감!</span>
+        <h1>헷갈리는 문법도<br><span>쉽고 재미있게</span></h1>
+        <p class="lead">be동사부터 시제·가정법·준동사까지, 쉬운 예문과 문제로 익혀요.<br>초등·중등·고등 기초를 끝내면 GTELP 실전 모의고사로 마무리해요.</p>
+        <div class="hero-actions hero-actions--main">
+          <a href="concepts.html" class="btn btn-primary"><i class="fa-solid fa-book-open"></i> 개념 보기</a>
+          <a href="practice.html" class="btn btn-outline"><i class="fa-solid fa-pen"></i> 문제 풀기</a>
+          <a href="mock.html" class="btn btn-outline"><i class="fa-solid fa-trophy"></i> 실전 모의고사</a>
+        </div>
+        <div class="hero-actions hero-actions--sub">
+          <a href="quiz.html" class="pill-link">🧩 오늘의 퀴즈</a>
+          <a href="worksheet.html" class="pill-link">📄 학습지 만들기</a>
+          <a href="progress.html" class="pill-link">🗺️ 내 기록 보기</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-card hero-card--mission">
+          <div class="mission-badge">🎯 오늘의 문법 미션</div>
+          <div class="big-emoji">✏️</div>
+          <h3>오늘의 문법 한 걸음</h3>
+          <p class="muted">개념 하나 + 문제 5개면 충분해요.</p>
+          <div class="counter-row" id="service-counters"></div>
+          <p class="mission-note">🛡️ AI 없이 안전한 학습 데이터로 공부해요</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="levels">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">START HERE</span>
+        <h2>초등·중등·고등·GTELP를 골라 시작해요</h2>
+        <p>be동사부터 GTELP 실전까지 단계별로 준비했어요.</p>
+      </div>
+      <div class="level-grid">
+        <a href="concepts.html?school=elementary" class="level-card level-card--el">
+          <div class="level-emoji">🌱</div>
+          <h3>초등 영문법</h3>
+          <p>be동사·일반동사·의문사·복수·관사를 예문으로 재미있게 배워요.</p>
+          <p class="muted" style="font-size:.85rem;">대표 단원: be동사 첫걸음 · 일반동사 첫걸음 · 의문사 첫걸음<br>⭐ I am / There is · 3인칭 -s</p>
+          <span class="btn btn-primary btn-sm">초등 개념 보기</span> <span class="btn btn-outline btn-sm">문제 풀기</span>
+        </a>
+        <a href="concepts.html?school=middle" class="level-card level-card--mi">
+          <div class="level-emoji">🌿</div>
+          <h3>중등 영문법</h3>
+          <p>시제·조동사·준동사·관계사·수동태로 문장 구조를 익혀요.</p>
+          <p class="muted" style="font-size:.85rem;">대표 단원: 시제 기본기 · 완료 시제 · 준동사 기본기<br>⭐ have+p.p. · enjoy+~ing</p>
+          <span class="btn btn-primary btn-sm">중등 개념 보기</span> <span class="btn btn-outline btn-sm">문제 풀기</span>
+        </a>
+        <a href="concepts.html?school=high" class="level-card level-card--hi">
+          <div class="level-emoji">🌳</div>
+          <h3>고등 영문법</h3>
+          <p>가정법·당위성·분사구문·도치로 독해와 영작을 연결해요.</p>
+          <p class="muted" style="font-size:.85rem;">대표 단원: 가정법 심화 · 준동사 심화 · 당위성 심화<br>⭐ If+were · suggest+원형</p>
+          <span class="btn btn-primary btn-sm">고등 개념 보기</span> <span class="btn btn-outline btn-sm">문제 풀기</span>
+        </a>
+        <a href="mock.html" class="level-card" style="border-top:4px solid #ea580c;">
+          <div class="level-emoji">🏆</div>
+          <h3>GTELP 실전</h3>
+          <p>문법 26문항/20분 실전 모의고사! 7개 유형 분포 그대로 풀어봐요.</p>
+          <p class="muted" style="font-size:.85rem;">시제 6 · 가정법 6 · 준동사 5 · 조동사 2 · 연결어 2 · 관계사 2 · 당위성 3</p>
+          <span class="btn btn-primary btn-sm">모의고사 풀기</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft" id="features">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">FEATURES</span>
+        <h2>이렇게 배워요</h2>
+        <p>개념으로 이해하고, 문제로 확인하고, 실전으로 마무리해요. 영어 고수는 틀리면서 크는 거예요.</p>
+      </div>
+      <ul class="menu-grid">
+        <li><a href="concepts.html"><span class="emoji">📖</span><span class="label">개념 보기</span><span class="sub">142개 영문법 개념</span></a></li>
+        <li><a href="practice.html"><span class="emoji">✏️</span><span class="label">문제 풀기</span><span class="sub">312문제 + 규칙 생성</span></a></li>
+        <li><a href="quiz.html"><span class="emoji">🧩</span><span class="label">퀴즈</span><span class="sub">개념·빈칸·헷갈림</span></a></li>
+        <li><a href="mock.html"><span class="emoji">🏆</span><span class="label">실전 모의고사</span><span class="sub">26문항/20분 타이머</span></a></li>
+        <li><a href="worksheet.html"><span class="emoji">📄</span><span class="label">학습지</span><span class="sub">A4 인쇄용 문제지</span></a></li>
+        <li><a href="progress.html"><span class="emoji">🗺️</span><span class="label">내 진도</span><span class="sub">오답노트·통계</span></a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="today">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">TODAY</span>
+        <h2>✏️ 오늘의 문법</h2>
+        <p>날짜마다 바뀌는 추천 학습이에요. 개념 하나만 알아도 문장이 다르게 보여요.</p>
+      </div>
+      <div id="today-concept"></div>
+      <div style="height:16px;"></div>
+      <div id="today-quiz"></div>
+      <div style="height:16px;"></div>
+      <div id="today-experiment"></div>
+    </div>
+  </section>
+
+  <section class="section section--tint" id="tips">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">MEMORY TIPS</span>
+        <h2>💡 문법 암기 꿀팁</h2>
+        <p>문법도 외우면 쉬워요. 짝꿍 패턴으로 기억해요.</p>
+      </div>
+      <div id="memory-tips"></div>
+    </div>
+  </section>
+
+  <section class="section" id="units">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">UNITS</span>
+        <h2>인기 단원 바로가기</h2>
+      </div>
+      <div id="popular-units"></div>
+    </div>
+  </section>
+
+  <section class="section" id="recent">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">RECENT</span>
+        <h2>최근 학습 기록</h2>
+        <p>이 기기에서의 학습 기록이에요. 로그인하면 계정에 저장돼요.</p>
+      </div>
+      <div id="recent-study"></div>
+      <div class="detail-controls">
+        <a href="progress.html" class="btn btn-primary btn-sm">내 진도 보기</a>
+        <a href="login.html" class="btn btn-outline btn-sm">로그인하고 기록 저장</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container foot-grid">
+    <div><h4>📝 문법아 놀자!</h4><p>초등·중등·고등 기초부터 GTELP 실전까지, 영문법을 쉽고 재미있게</p></div>
+    <div><h4>바로가기</h4><p><a href="concepts.html">개념 보기</a> · <a href="practice.html">문제 풀기</a> · <a href="quiz.html">퀴즈</a> · <a href="mock.html">모의고사</a></p></div>
+    <div><h4>안내</h4><p>AI 기능 없이 정적 데이터와 규칙 기반 문제로 동작해요. 로그인은 선택이며, 기록 저장을 원할 때만 사용해요.</p></div>
+  </div>
+  <div class="container foot-bottom">© 2026 문법아 놀자! · gram.chatgpts.kr</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/gram-data.js"></script>
+<script src="js/concept-data.js"></script>
+<script src="js/concept-data-mid.js"></script>
+<script src="js/concept-data-hi.js"></script>
+<script src="js/concept-data-gtelp.js"></script>
+<script src="js/problem-data-el.js"></script>
+<script src="js/problem-data-mi.js"></script>
+<script src="js/problem-data-hi.js"></script>
+<script src="js/problem-data-gt.js"></script>
+<script src="js/rule-data.js"></script>
+<script src="js/example-data.js"></script>
+<script src="js/progress.js"></script>
+<script src="js/cg-auth.js" data-service="gram" data-adopt="true" data-mount=".site-header .auth-box" data-mount-mode="append"></script>
+<script src="js/auth.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

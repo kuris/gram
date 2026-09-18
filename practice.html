@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>문제 풀기 - 문법아 놀자!</title>
+<meta name="description" content="초등·중등·고등·GTELP, 카테고리·단원·개념별로 영문법 문제를 풀고 바로 해설을 확인하세요.">
+<link rel="canonical" href="https://gram.chatgpts.kr/practice.html">
+<meta name="google-adsense-account" content="ca-pub-3321070604000141">
+<script defer src="js/cg-ads.js" data-client="ca-pub-3321070604000141"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/cg-auth.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="nav-wrap">
+    <a href="index.html" class="logo"><span class="logo-char">📝</span><span>문법아 놀자!</span></a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="메뉴 열기"><i class="fa-solid fa-bars"></i></button>
+    <nav class="main-nav" id="main-nav"></nav>
+    <div class="auth-box"></div>
+  </div>
+</header>
+<main class="section" style="padding-top:28px;">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">PRACTICE</span>
+      <h2>✏️ 문제 풀기</h2>
+      <p>조건을 고르고 바로 풀어보세요. 해설과 오답노트가 함께 저장돼요.</p>
+    </div>
+    <div class="quiz-card" id="practice-setup">
+      <div class="filter-bar">
+        <select id="pr-school"><option value="all">전체</option><option value="elementary">🌱 초등</option><option value="middle">🌿 중등</option><option value="high">🌳 고등</option></select>
+        <select id="pr-grade"><option value="all">전체 학년/과목</option></select>
+        <select id="pr-category"><option value="all">전체 카테고리</option></select>
+        <select id="pr-unit"><option value="all">전체 단원</option></select>
+      </div>
+      <div class="filter-bar">
+        <select id="pr-concept" style="flex:1;min-width:200px;"><option value="all">전체 개념</option></select>
+        <select id="pr-level"><option value="all">전체 난이도</option><option value="basic">기초</option><option value="easy">쉬움</option><option value="normal">보통</option><option value="hard">어려움</option><option value="advanced">심화</option></select>
+        <select id="pr-count"><option value="5">5문제</option><option value="10" selected>10문제</option><option value="20">20문제</option></select>
+      </div>
+      <div class="detail-controls"><button class="btn btn-primary" id="pr-start">문제 풀기 시작!</button></div>
+    </div>
+    <div class="practice-card" id="practice-play" style="display:none;">
+      <div class="progress-dots" id="pr-progress"></div>
+      <p id="pr-question" style="font-size:1.1rem;line-height:1.8;"></p>
+      <div id="pr-answers"></div>
+      <div class="feedback" id="pr-feedback" style="display:none;"></div>
+    </div>
+    <div class="practice-card" id="practice-result" style="display:none;"></div>
+  </div>
+</main>
+<footer class="site-footer">
+  <div class="container foot-grid">
+    <div><h4>📝 문법아 놀자!</h4><p>초등·중등·고등 기초부터 GTELP 실전까지, 영문법을 쉽고 재미있게</p></div>
+    <div><h4>바로가기</h4><p><a href="concepts.html">개념 보기</a> · <a href="quiz.html">퀴즈</a> · <a href="progress.html">내 진도</a></p></div>
+    <div><h4>안내</h4><p>틀린 문제는 오답노트에 자동 저장돼요.</p></div>
+  </div>
+  <div class="container foot-bottom">© 2026 문법아 놀자! · gram.chatgpts.kr</div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/gram-data.js"></script>
+<script src="js/concept-data.js"></script>
+<script src="js/concept-data-mid.js"></script>
+<script src="js/concept-data-hi.js"></script>
+<script src="js/concept-data-gtelp.js"></script>
+<script src="js/problem-data-el.js"></script>
+<script src="js/problem-data-mi.js"></script>
+<script src="js/problem-data-hi.js"></script>
+<script src="js/problem-data-gt.js"></script>
+<script src="js/rule-data.js"></script>
+<script src="js/example-data.js"></script>
+<script src="js/generator.js"></script>
+<script src="js/progress.js"></script>
+<script src="js/cg-auth.js" data-service="gram" data-adopt="true"></script>
+<script src="js/auth.js"></script>
+<script src="js/practice.js"></script>
+</body>
+</html>

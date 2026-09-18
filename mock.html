@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GTELP 실전 모의고사 - 문법아 놀자!</title>
+<meta name="description" content="GTELP Level 2 문법 실전형 26문항을 20분 타이머로 풀고 유형별 분석을 확인하세요. 시제 6·가정법 6·준동사 5·조동사 2·연결어 2·관계사 2·당위성 3.">
+<link rel="canonical" href="https://gram.chatgpts.kr/mock.html">
+<meta name="google-adsense-account" content="ca-pub-3321070604000141">
+<script defer src="js/cg-ads.js" data-client="ca-pub-3321070604000141"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/cg-auth.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="nav-wrap">
+    <a href="index.html" class="logo"><span class="logo-char">📝</span><span>문법아 놀자!</span></a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="메뉴 열기"><i class="fa-solid fa-bars"></i></button>
+    <nav class="main-nav" id="main-nav"></nav>
+    <div class="auth-box"></div>
+  </div>
+</header>
+<main class="section" style="padding-top:28px;">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">GTELP MOCK</span>
+      <h2>🏆 GTELP 실전 모의고사</h2>
+      <p>실제 시험처럼! 문법 26문항을 20분 안에 풀고, 7개 유형별 분석을 확인하세요.</p>
+    </div>
+    <div class="quiz-card" id="mock-setup">
+      <div class="info-box">
+        <h3>📋 출제 분포 (문법 26문항 / 20분)</h3>
+        <p>시제 6 · 가정법 6 · 준동사 5 · 조동사 2 · 연결어 2 · 관계사 2 · 당위성 3</p>
+        <p class="muted">실제 시험은 2~3문장 지문의 빈칸 채우기 4지선다예요. 청취·독해는 실제 시험장에서! (이 서비스는 문법 실전 대비용이에요)</p>
+      </div>
+      <div class="filter-bar">
+        <select id="mock-count"><option value="26" selected>26문항 (실전)</option><option value="13">13문항 (하프)</option><option value="7">7문항 (유형별 맛보기)</option></select>
+        <select id="mock-time"><option value="1200" selected>20분 (실전)</option><option value="600">10분</option><option value="0">제한시간 없음 (연습)</option></select>
+      </div>
+      <div class="detail-controls"><button class="btn btn-primary" id="mock-start">모의고사 시작!</button></div>
+    </div>
+    <div class="quiz-card" id="mock-play" style="display:none;">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+        <div class="progress-dots" id="mock-progress"></div>
+        <p id="mock-timer" class="muted" style="font-weight:800;margin:0;"></p>
+      </div>
+      <div id="mock-omr" class="omr-grid"></div>
+      <p id="mock-question" style="font-size:1.1rem;line-height:1.8;"></p>
+      <div id="mock-answers"></div>
+      <div class="feedback" id="mock-feedback" style="display:none;"></div>
+      <div class="detail-controls" id="mock-nav"></div>
+    </div>
+    <div class="quiz-card" id="mock-result" style="display:none;"></div>
+  </div>
+</main>
+<footer class="site-footer">
+  <div class="container foot-grid">
+    <div><h4>📝 문법아 놀자!</h4><p>초등·중등·고등 기초부터 GTELP 실전까지, 영문법을 쉽고 재미있게</p></div>
+    <div><h4>바로가기</h4><p><a href="practice.html">문제 풀기</a> · <a href="progress.html">내 진도</a> · <a href="stats.html">통계</a></p></div>
+    <div><h4>안내</h4><p>모의고사 기록은 로그인하면 계정에 저장돼요.</p></div>
+  </div>
+  <div class="container foot-bottom">© 2026 문법아 놀자! · gram.chatgpts.kr</div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/gram-data.js"></script>
+<script src="js/concept-data.js"></script>
+<script src="js/concept-data-mid.js"></script>
+<script src="js/concept-data-hi.js"></script>
+<script src="js/concept-data-gtelp.js"></script>
+<script src="js/problem-data-el.js"></script>
+<script src="js/problem-data-mi.js"></script>
+<script src="js/problem-data-hi.js"></script>
+<script src="js/problem-data-gt.js"></script>
+<script src="js/rule-data.js"></script>
+<script src="js/example-data.js"></script>
+<script src="js/generator.js"></script>
+<script src="js/progress.js"></script>
+<script src="js/cg-auth.js" data-service="gram" data-adopt="true"></script>
+<script src="js/auth.js"></script>
+<script src="js/mock.js"></script>
+</body>
+</html>
