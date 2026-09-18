@@ -56,12 +56,17 @@
     var a = String(answer);
     var out = [];
     var lower = a.toLowerCase();
+    // 첫 글자 대문자 유지 (Having → Have)
+    var cap = function (w) {
+      if (/^[A-Z]/.test(a) && /^[a-z]/.test(w)) return w.charAt(0).toUpperCase() + w.slice(1);
+      return w;
+    };
     // be동사 계열
     var beMap = { am: ['is', 'are'], is: ['am', 'are'], are: ['is', 'am'], was: ['were', 'is'], were: ['was', 'are'] };
-    if (beMap[lower]) return beMap[lower].concat(['be']);
+    if (beMap[lower]) return beMap[lower].concat(['be']).map(cap);
     // 조동사 계열
     var modMap = { can: ['could', 'will', 'must'], will: ['would', 'can', 'shall'], must: ['have to', 'should', 'can'], should: ['must', 'ought to', 'had better'] };
-    if (modMap[lower]) return modMap[lower];
+    if (modMap[lower]) return modMap[lower].map(cap);
     // have 계열
     if (lower === 'have') return ['has', 'had', 'having'];
     if (lower === 'has') return ['have', 'had', 'having'];
@@ -83,21 +88,27 @@
       // 흔한 -ing형의 원형 사전
       var ingBase = { eating: 'eat', meeting: 'meet', reading: 'read', swimming: 'swim', running: 'run', sitting: 'sit', making: 'make', taking: 'take', coming: 'come', going: 'go', doing: 'do', being: 'be', seeing: 'see', studying: 'study', playing: 'play', watching: 'watch', working: 'work', walking: 'walk', talking: 'talk', helping: 'help', learning: 'learn', waiting: 'wait', raining: 'rain', crying: 'cry', trying: 'try', lying: 'lie', dying: 'die', writing: 'write', driving: 'drive', riding: 'ride', smoking: 'smoke', leaving: 'leave', having: 'have', living: 'live', loving: 'love', moving: 'move', hoping: 'hope', closing: 'close', opening: 'open', shopping: 'shop', stopping: 'stop', getting: 'get', putting: 'put', cutting: 'cut', hitting: 'hit' };
       var b0 = ingBase[lower] || (stem3 + 'e');
-      var past2 = { go: 'went', eat: 'ate', see: 'saw', run: 'ran', swim: 'swam', sit: 'sat', come: 'came', take: 'took', give: 'gave', write: 'wrote', speak: 'spoke', break: 'broke', choose: 'chose', drive: 'drove', forget: 'forgot', get: 'got', meet: 'met', read: 'read', make: 'made', go2: '' }[b0.toLowerCase()] || (b0 + 'ed');
+      var past2 = { go: 'went', eat: 'ate', see: 'saw', run: 'ran', swim: 'swam', sit: 'sat', come: 'came', take: 'took', give: 'gave', write: 'wrote', speak: 'spoke', break: 'broke', choose: 'chose', drive: 'drove', forget: 'forgot', get: 'got', meet: 'met', read: 'read', make: 'made', have: 'had', go2: '' }[b0.toLowerCase()] || (b0 + 'ed');
+      var third2 = { go: 'goes', do: 'does', have: 'has' }[b0.toLowerCase()] || (b0 + 's');
       var seen2 = {};
-      [b0, past2, b0 + 's'].forEach(function (w) {
+      [b0, past2, third2].forEach(function (w) {
         if (!seen2[w.toLowerCase()] && w.toLowerCase() !== lower && out.indexOf(w) === -1) { seen2[w.toLowerCase()] = 1; out.push(w); }
       });
       return out;
     }
     // 불규칙 과거 (went/ate/saw/met/...) → 원형/to부정사/현재
     var irrBack = { went: 'go', ate: 'eat', saw: 'see', met: 'meet', left: 'leave', felt: 'feel', slept: 'sleep', ran: 'run', came: 'come', took: 'take', gave: 'give', wrote: 'write', spoke: 'speak', broke: 'break', chose: 'choose', drove: 'drive', forgot: 'forget', got: 'get', grew: 'grow', knew: 'know', threw: 'throw', flew: 'fly', drew: 'draw', wore: 'wear', tore: 'tear', swore: 'swear', bore: 'bear', lay: 'lie', lain: 'lie', laid: 'lay', risen: 'rise', raised: 'raise', sat: 'sit' };
-    if (irrBack[lower]) return [irrBack[lower], 'to ' + irrBack[lower], irrBack[lower] + 's'];
-    // 원형 → 과거/-s/-ing
+    if (irrBack[lower]) return [cap(irrBack[lower]), 'to ' + irrBack[lower], cap(irrBack[lower] + 's')];
+    // 원형 → 과거/3인칭/-ing (불규칙·3인칭 예외 처리)
     if (/^[a-z]+$/i.test(a) && a.length >= 2) {
-      out.push(a + 'ed');
-      out.push(a + 's');
-      out.push(a + 'ing');
+      var low3 = lower;
+      var past3map = { go: 'went', eat: 'ate', see: 'saw', run: 'ran', come: 'came', take: 'took', give: 'gave', write: 'wrote', speak: 'spoke', break: 'broke', choose: 'chose', drive: 'drove', forget: 'forgot', get: 'got', meet: 'met', make: 'made', do: 'did', have: 'had', be: 'was' };
+      var thirdMap = { go: 'goes', do: 'does', have: 'has' };
+      var p3 = past3map[low3] || (a + 'ed');
+      var t3 = thirdMap[low3] || (/(ch|sh|s|x|o)$/.test(a) ? a + 'es' : a + 's');
+      [p3, t3, a + 'ing'].forEach(function (w) {
+        if (w.toLowerCase() !== lower && out.indexOf(w) === -1) out.push(w);
+      });
       return out;
     }
     return out;
