@@ -8,8 +8,8 @@
     {
       label: '배우기', icon: '📚',
       children: [
-        { label: '개념 보기', href: 'concepts.html', icon: '📖', desc: '초등·중등·고등 문법 개념 정리' },
-        { label: '헷갈리는 표현', href: 'concepts.html?cat=spelling', icon: '🤔', desc: '되/돼, 안/않 등 자주 틀리는 말' },
+        { label: '개념 보기', href: 'concepts.html', icon: '📖', desc: '초등·중등·고등·GTELP 영문법 개념 정리' },
+        { label: '헷갈리는 표현', href: 'quiz.html', icon: '🤔', desc: "it's/its, your/you're 등 자주 틀리는 영어 표현" },
         { label: '학습지 만들기', href: 'worksheet.html', icon: '📄', desc: 'A4 인쇄용 문제지' }
       ]
     },
